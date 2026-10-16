@@ -52,6 +52,9 @@ When `mise` is found on the system, the plugin:
 2. Defines a no-op `compdef` stub before sourcing the activate script to prevent a premature `compinit` call. In zimfw, the completion module loads after this module — the stub ensures mise's `hook-env` does not trigger `compinit` before the completion module is ready.
 3. Schedules a one-shot `precmd` hook that re-runs `hook-env` after the completion module has initialized, registering tool completions (fnox, usage, etc.) at the right time.
 4. Generates the mise completion function (`_mise`) and regenerates it when the `mise` binary is newer.
+5. Defines an `mse` alias that runs `mise` through `fnox exec --`, so
+   `[bootstrap.secrets]` values resolve from fnox's encrypted cache without
+   prompting. Only defined when `fnox` is on `$PATH`.
 
 ## License
 

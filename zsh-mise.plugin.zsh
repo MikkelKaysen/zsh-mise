@@ -67,3 +67,8 @@ Plugins[ZSH_MISE_DIR]="${0:h}"
   fi
   fpath+=(${compfile:h})
 } ${Plugins[ZSH_MISE_DIR]}
+
+# `mse` runs mise through fnox so [bootstrap.secrets] templates resolve from
+# the age-encrypted cache instead of prompting each apply. No-op when fnox
+# isn't installed — plain `mise` still works (with --prompt-secrets if needed).
+(( ${+commands[fnox]} )) && alias mse='fnox exec -- mise'
