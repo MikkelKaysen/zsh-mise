@@ -122,4 +122,9 @@ _zsh_mise_wsl_restore_path() {
 # completions would fall back to files/commands. As a function, `mse` stays
 # out of `$aliases`, the completion sees `mse <args>`, and `compdef _mise mse`
 # (registered in the precmd hook below) provides full mise completions.
-(( ${+commands[fnox]} )) && mse() { fnox exec -- mise "$@" }
+if (( ${+commands[fnox]} )); then
+  # Drop a stale `mse` alias (e.g. from an older config) so the function
+  # definition below is not parsed as a function based on an alias.
+  unalias mse 2>/dev/null
+  function mse { fnox exec -- mise "$@" }
+fi
